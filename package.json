@@ -2,9 +2,9 @@
   "name": "react-native-tor",
   "version": "0.1.9-zeus",
   "description": "Tor for React Native",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
+  "main": "src/index",
+  "module": "src/index",
+  "types": "src/index.tsx",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
@@ -23,7 +23,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
+
     "release": "release-it",
     "example": "npm --cwd example",
     "pods": "cd example && pod-install --quiet",
