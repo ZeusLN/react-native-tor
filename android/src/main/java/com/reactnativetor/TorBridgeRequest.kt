@@ -13,7 +13,7 @@ class TaskParam(
   val method: String,
   val url: String,
   val json: String?,
-  val headers: HashMap<String, Any>?
+  val headers: HashMap<String, Any?>?
 );
 
 
@@ -49,7 +49,7 @@ class TorBridgeRequest constructor(
 
 
   public fun run() {
-    val request = when (param.method.toUpperCase()) {
+    val request = when (param.method.uppercase()) {
       "POST" -> {
         // Check Content-Type headers provided
         // Currently only supports application/x-www-form-urlencoded
