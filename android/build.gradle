@@ -8,7 +8,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.2.1'
+    classpath 'com.android.tools.build:gradle:7.4.2'
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
@@ -26,10 +26,10 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
+  namespace "com.reactnativetor"
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
-  buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion rootProject.ext.has('minSdkVersion') ? rootProject.ext.minSdkVersion : 16
+    minSdkVersion rootProject.ext.has('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
@@ -41,7 +41,7 @@ android {
       minifyEnabled false
     }
   }
-  lintOptions {
+  lint {
     disable 'GradleCompatible'
   }
   compileOptions {
