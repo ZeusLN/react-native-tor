@@ -50,6 +50,15 @@ android {
   }
 }
 
+// AGP 8+ forbids local .aar file deps when bundling an AAR.
+// The classes/resources from sifir_android.aar are consumed directly
+// by the app, so disable the bundleAar validation.
+tasks.configureEach { task ->
+  if (task.name.matches(/bundle.*Aar/)) {
+    task.enabled = false
+  }
+}
+
 repositories {
   mavenCentral()
   google()
