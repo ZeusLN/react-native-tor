@@ -26,7 +26,12 @@ class TorBridgeStartAsync constructor(
       // memory-mapped files (log, lock, cached-*) from a previous run.
       cleanStaleTorState(param.path)
       Log.d("TorBridge", "Starting Tor with ${param.path} ${param.socksPort} ${param.timeoutMs}")
-      val ownedTor = OwnedTorService(TorServiceParam(param.path, param.socksPort,param.timeoutMs.toLong()));
+      val torParam = TorServiceParam(param.path, param.socksPort,param.timeoutMs.toLong())
+      val ownedTor = OwnedTorService(torParam)
+      // OwnedTorService constructor takes ownership of the native pointer and
+      // zeros torParam.mNativeObj. Call delete() explicitly so the GC finalizer
+      // doesn't attempt a double-free on the already-consumed native memory.
+      torParam.delete()
       onSuccess(ownedTor);
     } catch (e: Exception) {
       Log.d("TorBridge:StartAsync", "error onPostExecute$e")
