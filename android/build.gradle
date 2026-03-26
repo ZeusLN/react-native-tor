@@ -51,16 +51,11 @@ android {
   }
 }
 
-// AGP 8+ forbids local .aar file deps when bundling an AAR.
-// The classes/resources from sifir_android.aar are consumed directly
-// by the app, so disable the bundleAar validation.
-tasks.configureEach { task ->
-  if (task.name.matches(/bundle.*Aar/)) {
-    task.enabled = false
-  }
-}
 
 repositories {
+  flatDir {
+    dirs "$projectDir/libs"
+  }
   mavenCentral()
   google()
 
@@ -136,5 +131,5 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation files('libs/sifir_android.aar')
+  implementation(name: 'sifir_android', ext: 'aar')
 }
