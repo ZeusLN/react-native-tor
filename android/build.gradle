@@ -52,10 +52,31 @@ android {
 }
 
 
-repositories {
-  flatDir {
-    dirs "$projectDir/libs"
+// AGP 8+ forbids local .aar file deps when bundling an AAR.
+// Disable bundleAar and generate a stub AAR for lint analysis.
+tasks.configureEach { task ->
+  if (task.name.matches(/bundle.*Aar/)) {
+    task.enabled = false
   }
+}
+afterEvaluate {
+  android.libraryVariants.configureEach { variant ->
+    def aarDir = file("${buildDir}/intermediates/local_aar_for_lint/${variant.dirName}")
+    aarDir.mkdirs()
+    def aarFile = file("${aarDir}/out.aar")
+    if (!aarFile.exists()) {
+      def manifest = '<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.reactnativetor" />'
+      new java.util.zip.ZipOutputStream(aarFile.newOutputStream()).with { zos ->
+        zos.putNextEntry(new java.util.zip.ZipEntry("AndroidManifest.xml"))
+        zos.write(manifest.bytes)
+        zos.closeEntry()
+        zos.close()
+      }
+    }
+  }
+}
+
+repositories {
   mavenCentral()
   google()
 
@@ -131,5 +152,5 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation(name: 'sifir_android', ext: 'aar')
+  implementation files('libs/sifir_android.aar')
 }
