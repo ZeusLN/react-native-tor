@@ -1,6 +1,6 @@
 {
   "name": "react-native-tor",
-  "version": "0.2.0-zeus",
+  "version": "0.2.1-zeus",
   "description": "Tor for React Native",
   "main": "src/index",
   "module": "src/index",
